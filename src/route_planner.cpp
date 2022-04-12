@@ -37,9 +37,9 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
     current_node->FindNeighbors();
     
     for(RouteModel::Node *neighbor : current_node->neighbors) {
-        neighbor->parent = current_node; //TODO check
+        neighbor->parent = current_node;
         neighbor->h_value = CalculateHValue(neighbor);
-        neighbor->g_value = current_node->g_value + neighbor->distance(*current_node); //TODO check
+        neighbor->g_value = current_node->g_value + neighbor->distance(*current_node);
         neighbor->visited = true;
         open_list.push_back(neighbor);
     }
@@ -47,7 +47,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 }
 
 // Compare two nodes based on the cost defined by the sum of h_value and g_value
-// true if the second has a higher cost
+// true if the first has a higher cost
 
 bool compareNodesCost(RouteModel::Node *node1, RouteModel::Node *node2)
 {
@@ -111,10 +111,11 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 // - Store the final path in the m_Model.path attribute before the method exits. This path will then be displayed on the map tile.
 
 void RoutePlanner::AStarSearch() {
-    RouteModel::Node *current_node = start_node;
-    AddNeighbors(current_node);
+    RouteModel::Node *current_node = nullptr;
   
     // TODO: Implement your solution here.
+    open_list.push_back(start_node);
+
     while(open_list.size() > 0) {
         current_node = NextNode();
         if (current_node == end_node) {
@@ -124,5 +125,4 @@ void RoutePlanner::AStarSearch() {
         AddNeighbors(current_node);
     }
     std::cout << "No path found!" << "\n";
-    m_Model.path = ConstructFinalPath(current_node);
 }
