@@ -115,6 +115,7 @@ void RoutePlanner::AStarSearch() {
   
     // TODO: Implement your solution here.
     open_list.push_back(start_node);
+    start_node->visited = true;
 
     while(open_list.size() > 0) {
         current_node = NextNode();
